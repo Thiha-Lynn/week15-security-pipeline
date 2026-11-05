@@ -28,7 +28,8 @@ ADMINS = {"alice"}
 
 
 def _client_ip() -> str:
-    return request.headers.get("X-Forwarded-For", request.remote_addr or "?")
+    # This lab has no trusted reverse proxy; the client controls forwarded headers.
+    return request.remote_addr or "?"
 
 
 @app.route("/")
