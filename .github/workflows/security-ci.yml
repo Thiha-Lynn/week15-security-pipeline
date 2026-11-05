@@ -149,7 +149,7 @@ jobs:
       - name: Gitleaks scan -> SARIF
         run: |
           docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:latest \
-            detect -s /repo \
+            detect -s /repo --log-opts=HEAD \
             --report-format sarif --report-path /repo/gitleaks.sarif \
             --exit-code 0 -v || true   # report; gate step enforces failure
 
@@ -163,4 +163,4 @@ jobs:
       - name: Gate — fail if any secret found
         run: |
           docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:latest \
-            detect -s /repo --exit-code 1 -v   # <-- non-zero => build fails
+            detect -s /repo --log-opts=HEAD --exit-code 1 -v   # <-- non-zero => build fails
